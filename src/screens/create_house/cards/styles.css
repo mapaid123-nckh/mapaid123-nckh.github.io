@@ -1,0 +1,262 @@
+.dashboard-container {
+    min-height: 100vh;
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=1920');
+    background-size: cover;
+    background-attachment: fixed;
+    padding-bottom: 40px;
+}
+
+.top-nav {
+    background: rgba(255, 255, 255, 0.95);
+    /* margin: 20px 40px; */
+    padding: 10px 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.nav-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-circles-group {
+    display: flex;
+    /* Dàn hàng ngang cho các icon khoanh tròn */
+    gap: 12px;
+}
+
+.icon-circle-red {
+    width: 36px;
+    height: 36px;
+    background: #b32d2e;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 25px;
+    padding: 20px 40px;
+}
+
+.info-card {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    height: 350px;
+    overflow: hidden;
+}
+
+.card-main-content.scroll-y {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 15px;
+    padding-right: 8px;
+}
+
+.card-main-content.scroll-y::-webkit-scrollbar {
+    width: 5px;
+}
+
+.card-main-content.scroll-y::-webkit-scrollbar-thumb {
+    background: #cccccc;
+    border-radius: 10px;
+}
+
+.card-main-content.scroll-y::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.card-footer-action {
+    margin-top: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.red-badge {
+    width: 44px;
+    height: 44px;
+    background: #b32d2e;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+}
+
+.card-header-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.goong-map-wrapper {
+    width: 100%;
+    height: 180px;
+    border-radius: 8px;
+}
+
+.blue-edit-btn {
+    background: #3b82f6;
+    color: white;
+    border: none;
+    padding: 8px 30px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: auto;
+    align-self: center;
+}
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.modal-window {
+    background: white;
+    width: 90%;
+    max-width: 450px;
+    padding: 25px;
+    border-radius: 12px;
+}
+
+.edit-input {
+    width: 100%;
+    height: 120px;
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.modal-head h2 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.close-x {
+    background: #f0f2f5;
+    border: none;
+    font-size: 24px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+.close-x:hover {
+    background: #e4e6e9;
+    color: #b32d2e;
+}
+
+.modal-foot {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.btn-save {
+    background: #3b82f6;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-save:hover {
+    background: #2563eb;
+}
+
+.edit-input {
+    width: 100%;
+    height: 150px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+}
+
+.modal-window {
+    background: white;
+    width: 90%;
+    max-width: 550px;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    max-height: 85vh;
+    overflow: hidden;
+}
+
+.close-x {
+    background: transparent;
+    border: none;
+    outline: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+
+    cursor: pointer;
+    color: #b32d2e;
+    transition: all 0.2s ease-in-out;
+}
+
+.edit-x {
+    background: transparent;
+    border: none;
+    outline: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+
+    cursor: pointer;
+    color: #3b82f6;
+    transition: all 0.2s ease-in-out;
+}
+
+.edit-x:hover {
+    background: #e4e6e9;
+    color: #2563eb;
+}
+
+hr {
+    border: 0;
+    height: 2px;
+    background: #030303;
+    margin: 10px 0;
+}

@@ -1,0 +1,78 @@
+{
+    "project": "MapAid - Hanoi Fire Station Data",
+    "total_stations": 8,
+    "data": [
+        {
+            "id": "ST-01",
+            "name": "Đội PCCC & CNCH Quận Hoàn Kiếm",
+            "lat": 21.0264,
+            "lng": 105.8491,
+            "address": "Số 2 Chợ Gạo, Hoàn Kiếm",
+            "hotline": "114",
+            "vehicles": 5
+        },
+        {
+            "id": "ST-02",
+            "name": "Đội PCCC & CNCH Quận Ba Đình",
+            "lat": 21.0378,
+            "lng": 105.8146,
+            "address": "115 Quán Thánh, Ba Đình",
+            "hotline": "114",
+            "vehicles": 4
+        },
+        {
+            "id": "ST-03",
+            "name": "Đội PCCC & CNCH Quận Cầu Giấy",
+            "lat": 21.0345,
+            "lng": 105.7892,
+            "address": "Số 17 Duy Tân, Cầu Giấy",
+            "hotline": "114",
+            "vehicles": 6
+        },
+        {
+            "id": "ST-04",
+            "name": "Đội PCCC & CNCH Quận Đống Đa",
+            "lat": 21.0125,
+            "lng": 105.8289,
+            "address": "31 Láng Hạ, Đống Đa",
+            "hotline": "114",
+            "vehicles": 5
+        },
+        {
+            "id": "ST-05",
+            "name": "Đội PCCC & CNCH Quận Hai Bà Trưng",
+            "lat": 20.993876,
+            "lng": 105.860798,
+            "address": "66 Lạc Trung, Hai Bà Trưng",
+            "hotline": "114",
+            "vehicles": 4
+        },
+        {
+            "id": "ST-06",
+            "name": "Đội PCCC & CNCH Quận Thanh Xuân",
+            "lat": 20.9935,
+            "lng": 105.8112,
+            "address": "Vũ Tông Phan, Thanh Xuân",
+            "hotline": "114",
+            "vehicles": 4
+        },
+        {
+            "id": "ST-07",
+            "name": "Đội PCCC & CNCH Quận Nam Từ Liêm",
+            "lat": 21.0152,
+            "lng": 105.7654,
+            "address": "Số 1 Trần Hữu Dực, Nam Từ Liêm",
+            "hotline": "114",
+            "vehicles": 6
+        },
+        {
+            "id": "ST-08",
+            "name": "Đội PCCC & CNCH Quận Hà Đông",
+            "lat": 20.9723,
+            "lng": 105.7761,
+            "address": "Số 15 Quang Trung, Hà Đông",
+            "hotline": "114",
+            "vehicles": 5
+        }
+    ]
+}

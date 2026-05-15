@@ -1,0 +1,206 @@
+{
+    "project": "MapAid - Hanoi Fire Hydrant Data",
+    "total_hydrants": 20,
+    "data": [
+        {
+            "id": "HYD-HN-001",
+            "name": "Trụ nước Nam Từ Liêm #1",
+            "latitude": 21.001087,
+            "longitude": 105.878608,
+            "type": "Trụ ngầm",
+            "status": "Đang bảo trì",
+            "last_check": "2026-02-28",
+            "pressure": 0.32
+        },
+        {
+            "id": "HYD-HN-002",
+            "name": "Trụ nước Đống Đa #2",
+            "latitude": 20.996136,
+            "longitude": 105.822495,
+            "type": "Trụ nổi",
+            "status": "Hoạt động",
+            "last_check": "2026-01-03",
+            "pressure": 0.76
+        },
+        {
+            "id": "HYD-HN-003",
+            "name": "Trụ nước Hai Bà Trưng #3",
+            "latitude": 21.073779,
+            "longitude": 105.806978,
+            "type": "Trụ ngầm",
+            "status": "Hoạt động",
+            "last_check": "2026-05-23",
+            "pressure": 0.71
+        },
+        {
+            "id": "HYD-HN-004",
+            "name": "Trụ nước Ba Đình #4",
+            "latitude": 20.997711,
+            "longitude": 105.848891,
+            "type": "Trụ ngầm",
+            "status": "Đang bảo trì",
+            "last_check": "2026-03-01",
+            "pressure": 0.36
+        },
+        {
+            "id": "HYD-HN-005",
+            "name": "Trụ nước Hai Bà Trưng #5",
+            "latitude": 21.019023,
+            "longitude": 105.855342,
+            "type": "Trụ ngầm",
+            "status": "Đang bảo trì",
+            "last_check": "2026-04-27",
+            "pressure": 0.22
+        },
+        {
+            "id": "HYD-HN-006",
+            "name": "Trụ nước Hai Bà Trưng #6",
+            "latitude": 21.001112,
+            "longitude": 105.80546,
+            "type": "Trụ nổi",
+            "status": "Hoạt động",
+            "last_check": "2026-05-21",
+            "pressure": 0.31
+        },
+        {
+            "id": "HYD-HN-007",
+            "name": "Trụ nước Hai Bà Trưng #7",
+            "latitude": 20.997767,
+            "longitude": 105.873025,
+            "type": "Trụ ngầm",
+            "status": "Hoạt động",
+            "last_check": "2026-01-25",
+            "pressure": 0.51
+        },
+        {
+            "id": "HYD-HN-008",
+            "name": "Trụ nước Ba Đình #8",
+            "latitude": 21.077322,
+            "longitude": 105.867858,
+            "type": "Trụ nổi",
+            "status": "Hỏng",
+            "last_check": "2026-04-15",
+            "pressure": 0.22
+        },
+        {
+            "id": "HYD-HN-009",
+            "name": "Trụ nước Hà Đông #9",
+            "latitude": 21.015607,
+            "longitude": 105.841016,
+            "type": "Trụ nổi",
+            "status": "Đang bảo trì",
+            "last_check": "2026-01-01",
+            "pressure": 0.54
+        },
+        {
+            "id": "HYD-HN-010",
+            "name": "Trụ nước Thanh Xuân #10",
+            "latitude": 21.062199,
+            "longitude": 105.812231,
+            "type": "Trụ nổi",
+            "status": "Đang bảo trì",
+            "last_check": "2026-01-03",
+            "pressure": 0.5
+        },
+        {
+            "id": "HYD-HN-011",
+            "name": "Trụ nước Hà Đông #11",
+            "latitude": 21.056032,
+            "longitude": 105.805709,
+            "type": "Trụ nổi",
+            "status": "Hoạt động",
+            "last_check": "2026-01-23",
+            "pressure": 0.71
+        },
+        {
+            "id": "HYD-HN-012",
+            "name": "Trụ nước Đống Đa #12",
+            "latitude": 21.029213,
+            "longitude": 105.888178,
+            "type": "Trụ ngầm",
+            "status": "Hỏng",
+            "last_check": "2026-05-27",
+            "pressure": 0.41
+        },
+        {
+            "id": "HYD-HN-013",
+            "name": "Trụ nước Đống Đa #13",
+            "latitude": 21.070309,
+            "longitude": 105.848079,
+            "type": "Trụ nổi",
+            "status": "Hỏng",
+            "last_check": "2026-03-13",
+            "pressure": 0.59
+        },
+        {
+            "id": "HYD-HN-014",
+            "name": "Trụ nước Hai Bà Trưng #14",
+            "latitude": 21.012662,
+            "longitude": 105.851577,
+            "type": "Trụ nổi",
+            "status": "Hoạt động",
+            "last_check": "2026-05-28",
+            "pressure": 0.64
+        },
+        {
+            "id": "HYD-HN-015",
+            "name": "Trụ nước Cầu Giấy #15",
+            "latitude": 21.023357,
+            "longitude": 105.875965,
+            "type": "Trụ ngầm",
+            "status": "Đang bảo trì",
+            "last_check": "2026-05-16",
+            "pressure": 0.41
+        },
+        {
+            "id": "HYD-HN-016",
+            "name": "Trụ nước Hai Bà Trưng #16",
+            "latitude": 20.989724,
+            "longitude": 105.898056,
+            "type": "Trụ ngầm",
+            "status": "Hỏng",
+            "last_check": "2026-01-11",
+            "pressure": 0.77
+        },
+        {
+            "id": "HYD-HN-017",
+            "name": "Trụ nước Nam Từ Liêm #17",
+            "latitude": 21.072857,
+            "longitude": 105.899198,
+            "type": "Trụ nổi",
+            "status": "Đang bảo trì",
+            "last_check": "2026-02-15",
+            "pressure": 0.73
+        },
+        {
+            "id": "HYD-HN-018",
+            "name": "Trụ nước Hai Bà Trưng #18",
+            "latitude": 21.013908,
+            "longitude": 105.863502,
+            "type": "Trụ ngầm",
+            "status": "Hỏng",
+            "last_check": "2026-03-24",
+            "pressure": 0.41
+        },
+        {
+            "id": "HYD-HN-019",
+            "name": "Trụ nước Nam Từ Liêm #19",
+            "latitude": 20.996087,
+            "longitude": 105.856283,
+            "type": "Trụ nổi",
+            "status": "Hỏng",
+            "last_check": "2026-05-02",
+            "pressure": 0.42
+        },
+        {
+            "id": "HYD-HN-020",
+            "name": "Trụ nước Cầu Giấy #20",
+            "latitude": 21.0534,
+            "longitude": 105.86237,
+            "type": "Trụ nổi",
+            "status": "Hỏng",
+            "last_check": "2026-01-10",
+            "pressure": 0.23
+        }
+    ]
+}

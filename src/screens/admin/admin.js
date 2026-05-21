@@ -129,7 +129,7 @@ export default function Admin() {
             const hasZeroPermission = profile.first_attr === '0';
 
             if (isUser) {
-                navigate('/admin');
+                console.log("Quyền admin xác nhận, cho phép truy cập.");
             } else if (hasZeroPermission) {
                 navigate('/detail_house');
             } else {
@@ -247,12 +247,18 @@ export default function Admin() {
                     </div>
 
                     <div className="nav-right-group" style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+                        <button onClick={() => { navigate('/admin') }} className="logout-btn">
+                            <span className="material-icons" style={{ fontSize: 14, padding: '2px 3px' }}>Trang chủ</span>
+                        </button>
+                        <button onClick={() => { navigate('/admin/statistical') }} className="logout-btn">
+                            <span className="material-icons" style={{ fontSize: 14, padding: '2px 3px' }}>Thống kê phương tiện</span>
+                        </button>
                         <button onClick={handleLogout} className="logout-btn">
-                            <span className="material-icons">Đăng xuất</span>
+                            <span className="material-icons" style={{ fontSize: 14, padding: '2px 3px' }}>Đăng xuất</span>
                         </button>
                     </div>
                 </div>
-            </header>
+            </header >
             <main className="admin-content">
                 <div className="admin-sidebar">
                     <div className="card profile-section">
@@ -279,6 +285,6 @@ export default function Admin() {
                 </section>
             </main>
             {modal.visible && <ModalViewInfo modal={modal} setModal={setModal} tabs={tabs} />}
-        </div>
+        </div >
     );
 }

@@ -38,7 +38,7 @@ function CreateHouse() {
             } else if (hasZeroPermission) {
                 navigate('/detail_house');
             } else {
-                navigate('/create_house');
+                console.warn("Quyền truy cập không đủ, chuyển hướng về trang chi tiết nhà.");
             }
 
         } catch (err) {

@@ -53,7 +53,7 @@ function DetailHouse() {
       if (isUser) {
         navigate('/admin');
       } else if (hasZeroPermission) {
-        navigate('/detail_house');
+        console.warn("Quyền truy cập không đủ, chuyển hướng về trang chi tiết nhà.");
       } else {
         navigate('/create_house');
       }

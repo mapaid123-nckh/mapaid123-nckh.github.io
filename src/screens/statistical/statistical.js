@@ -622,6 +622,176 @@ export default function VehicleStatistics() {
                             <h3>Cập nhật thiết bị (ID: {editingDevice.id})</h3>
                             <button className="close-btn" onClick={() => setIsEditDeviceModal(false)}>×</button>
                         </div>
+                        <form onSubmit={handleUpdateDevice} style={{ padding: '0 25px' }}>
+                            <div className="form-group">
+                                <label>Điều chuyển sang Xe khác:</label>
+                                <select required className="uikit-select" value={editingDevice.id_xe} onChange={(e) => setEditingDevice({ ...editingDevice, id_xe: e.target.value })}>
+                                    {vehicleList.map(v => (
+                                        <option key={v.id} value={v.id}>{v.ma_xe}({getVehicleTypeName(v.loai_xe)})</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="form-group">
+                                <label>Tên thiết bị:</label>
+                                <select required className="uikit-select" value={editingDevice.ten_thiet_bi} onChange={(e) => setEditingDevice({ ...editingDevice, ten_thiet_bi: e.target.value })}>
+                                    <option value="Lăng A">Lăng A</option>
+                                    <option value="Lăng B">Lăng B</option>
+                                    <option value="Vòi 77">Vòi 77</option>
+                                    <option value="Vòi 65">Vòi 65</option>
+                                    <option value="Vòi 55">Vòi 55</option>
+                                    <option value="Lăng giá">Lăng giá</option>
+                                    <option value="Bơm tay">Bơm tay</option>
+                                    <option value="Cưa máy">Cưa máy</option>
+                                    <option value="Kìm cộng lực">Kìm cộng lực</option>
+                                    <option value="Rìu">Rìu</option>
+                                    <option value="Thang">Thang</option>
+                                    <option value="Dụng cụ đa năng">Dụng cụ đa năng</option>
+                                    <option value="Bọt">Bọt</option>
+                                    <option value="Mặt nạ Drager">Mặt nạ Drager</option>
+                                    <option value="Bình khí">Bình khí</option>
+                                    <option value="Lăng phun bọt LPB 600">Lăng phun bọt LPB 600</option>
+                                    <option value="Lăng phun bọt LPB 400">Lăng phun bọt LPB 400</option>
+                                    <option value="Lăng phun bọt LPB 200">Lăng phun bọt LPB 200</option>
+                                    <option value="Đầu chuyển">Đầu chuyển</option>
+                                    <option value="Ba chạc">Ba chạc</option>
+                                    <option value="Máy nén khí">Máy nén khí</option>
+                                    <option value="Máy thủy lực">Máy thủy lực</option>
+                                </select>
+                            </div>
+                            <div className="form-group">
+                                <label>Số lượng:</label>
+                                <input type="number" min="1" required className="uikit-input" value={editingDevice.so_luong} onChange={(e) => setEditingDevice({ ...editingDevice, so_luong: e.target.value })} />
+                            </div>
+                            <div className="form-group">
+                                <label>Trạng thái vật tư:</label>
+                                <select className="uikit-select" value={editingDevice.trang_thai} onChange={(e) => setEditingDevice({ ...editingDevice, trang_thai: e.target.value })}>
+                                    <option value="Tốt">Tốt</option>
+                                    <option value="Hỏng">Hỏng</option>
+                                </select>
+                            </div>
+                            <div className="form-group">
+                                <label>Mô tả tình trạng:</label>
+                                <textarea className="uikit-input" rows="2" value={editingDevice.chu_thich || ''} onChange={(e) => setEditingDevice({ ...editingDevice, chu_thich: e.target.value })}></textarea>
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn-cancel" onClick={() => setIsEditDeviceModal(false)}>Hủy</button>
+                                <button type="submit" className="btn-save">Cập nhật</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+            {isOpenVehicleModal && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h3>Thêm Phương Tiện Mới</h3>
+                            <button className="close-btn" onClick={() => setIsOpenVehicleModal(false)}>×</button>
+                        </div>
+                        <form onSubmit={handleAddVehicle} style={{ padding: '0 25px' }}>
+                            <div className="form-group">
+                                <label>Tên xe - Biển số:</label>
+                                <input type="text" required className="uikit-input" value={newVehicle.ma_xe} onChange={(e) => setNewVehicle({ ...newVehicle, ma_xe: e.target.value })} />
+                            </div>
+                            <div className="form-group">
+                                <label>Loại phương tiện:</label>
+                                <select className="uikit-select" value={newVehicle.loai_xe} onChange={(e) => setNewVehicle({ ...newVehicle, loai_xe: e.target.value })}>
+                                    <option value="CC">Xe chữa cháy</option>
+                                    <option value="TH">Xe thang</option>
+                                    <option value="TN">Xe téc</option>
+                                    <option value="CNCH">Xe cứu nạn cứu hộ</option>
+                                </select>
+                            </div>
+                            <div className="form-group">
+                                <label>Trạng thái ban đầu:</label>
+                                <select className="uikit-select" value={newVehicle.trang_thai} onChange={(e) => setNewVehicle({ ...newVehicle, trang_thai: e.target.value })}>
+                                    <option value="ready">Sẵn sàng</option>
+                                    <option value="maintenance">Bảo dưỡng</option>
+                                    <option value="in_use">Đang sử dụng</option>
+                                </select>
+                            </div>
+                            <div className="form-group">
+                                <label>Chú thích:</label>
+                                <textarea className="uikit-input" rows="3" value={newVehicle.chu_thich} onChange={(e) => setNewVehicle({ ...newVehicle, chu_thich: e.target.value })}></textarea>
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn-cancel" onClick={() => setIsOpenVehicleModal(false)}>Hủy</button>
+                                <button type="submit" className="btn-save">Lưu lại</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+            {isOpenDeviceModal && (
+                <div className="modal-overlay">
+                    <div className="modal-window">
+                        <div className="modal-header">
+                            <h3>Thêm Thiết Bị Vào Xe</h3>
+                            <button className="close-btn" onClick={() => setIsOpenDeviceModal(false)}>×</button>
+                        </div>
+                        <form onSubmit={handleAddDevice} style={{ padding: '0 25px' }}>
+                            <div className="form-group">
+                                <label>Chọn Xe lắp đặt:</label>
+                                <select required className="uikit-select" value={newDevice.id_xe} onChange={(e) => setNewDevice({ ...newDevice, id_xe: e.target.value })}>
+                                    <option value="">-- Chọn xe từ danh sách --</option>
+                                    {vehicleList.map(v => (
+                                        <option key={v.id} value={v.id}>{v.ma_xe} ({getVehicleTypeName(v.loai_xe)})</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="form-group">
+                                <label>Tên thiết bị/phương tiện:</label>
+                                <select
+                                    required
+                                    className="uikit-select"
+                                    value={newDevice.ten_thiet_bi}
+                                    onChange={(e) => setNewDevice({ ...newDevice, ten_thiet_bi: e.target.value })}
+                                >
+                                    <option value="">-- Chọn loại thiết bị --</option>
+                                    <option value="Lăng A">Lăng A</option>
+                                    <option value="Lăng B">Lăng B</option>
+                                    <option value="Vòi 77">Vòi 77</option>
+                                    <option value="Vòi 65">Vòi 65</option>
+                                    <option value="Vòi 55">Vòi 55</option>
+                                    <option value="Lăng giá">Lăng giá</option>
+                                    <option value="Bơm tay">Bơm tay</option>
+                                    <option value="Cưa máy">Cưa máy</option>
+                                    <option value="Kìm cộng lực">Kìm cộng lực</option>
+                                    <option value="Rìu">Rìu</option>
+                                    <option value="Thang">Thang</option>
+                                    <option value="Dụng cụ đa năng">Dụng cụ đa năng</option>
+                                    <option value="Bọt">Bọt</option>
+                                    <option value="Mặt nạ Drager">Mặt nạ Drager</option>
+                                    <option value="Bình khí">Bình khí</option>
+                                    <option value="Lăng phun bọt LPB 600">Lăng phun bọt LPB 600</option>
+                                    <option value="Lăng phun bọt LPB 400">Lăng phun bọt LPB 400</option>
+                                    <option value="Lăng phun bọt LPB 200">Lăng phun bọt LPB 200</option>
+                                    <option value="Đầu chuyển">Đầu chuyển</option>
+                                    <option value="Ba chạc">Ba chạc</option>
+                                    <option value="Máy nén khí">Máy nén khí</option>
+                                    <option value="Máy thủy lực">Máy thủy lực</option>
+                                </select>
+                            </div>
+                            <div className="form-group">
+                                <label>Số lượng:</label>
+                                <input type="number" min="1" required className="uikit-input" value={newDevice.so_luong} onChange={(e) => setNewDevice({ ...newDevice, so_luong: e.target.value })} />
+                            </div>
+                            <div className="form-group">
+                                <label>Trạng thái:</label>
+                                <select className="uikit-select" value={newDevice.trang_thai} onChange={(e) => setNewDevice({ ...newDevice, trang_thai: e.target.value })}>
+                                    <option value="Tốt">Tốt</option>
+                                    <option value="Hỏng">Hỏng</option>
+                                </select>
+                            </div>
+                            <div className="form-group">
+                                <label>Tình trạng chi tiết / Chú thích:</label>
+                                <textarea className="uikit-input" rows="2" placeholder="Tình trạng hỏng..." value={newDevice.chu_thich} onChange={(e) => setNewDevice({ ...newDevice, chu_thich: e.target.value })}></textarea>
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn-cancel" onClick={() => setIsOpenDeviceModal(false)}>Hủy</button>
+                                <button type="submit" className="btn-save">Thêm thiết bị</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             )}

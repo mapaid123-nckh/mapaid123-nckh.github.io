@@ -74,8 +74,6 @@ export default function Admin() {
                 setFireList(constructionToGeoJSON(fireList));
                 setFiresList(fireList);
             }
-
-
         } catch (err) {
             console.error("Lỗi hệ thống khi fetch:", err.message);
             return null;

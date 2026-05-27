@@ -73,6 +73,15 @@
             "address": "Số 15 Quang Trung, Hà Đông",
             "hotline": "114",
             "vehicles": 5
+        },
+        {
+            "id": "ST-09",
+            "name": "Đội chữa cháy học tập đại học PCCC",
+            "lat": 21.001301711579007,
+            "lng": 105.79351216091429,
+            "address": "Số 81 Hồ Mễ Trì, Nam Từ Liêm",
+            "hotline": "114",
+            "vehicles": 5
         }
     ]
 }

@@ -201,6 +201,56 @@
             "status": "Hỏng",
             "last_check": "2026-01-10",
             "pressure": 0.23
+        },
+        {
+            "id": "HYD-HN-021",
+            "name": "Trụ nước 151 Láng Hạ #21",
+            "latitude": 21.011890059517423,
+            "longitude": 105.81198954531244,
+            "type": "Trụ nổi",
+            "status": "Hoạt động",
+            "last_check": "2026-01-10",
+            "pressure": 0.23
+        },
+        {
+            "id": "HYD-HN-022",
+            "name": "Trụ nước 426 Đường Láng #22",
+            "latitude": 21.00961019243028,
+            "longitude": 105.81342963219024,
+            "type": "Trụ nổi",
+            "status": "Hỏng",
+            "last_check": "2026-01-10",
+            "pressure": 0.23
+        },
+        {
+            "id": "HYD-HN-023",
+            "name": "Trụ nước Cổng đại học PCCC #23",
+            "latitude": 21.001217061241636,
+            "longitude": 105.79535275761162,
+            "type": "Trụ nổi",
+            "status": "Đang bảo trì",
+            "last_check": "2026-01-10",
+            "pressure": 0.23
+        },
+        {
+            "id": "HYD-HN-024",
+            "name": "Trụ nước 89 Nguyễn Ngọc Vũ #24",
+            "latitude": 21.00998891301998,
+            "longitude": 105.81096022792767,
+            "type": "Trụ nổi",
+            "status": "Đang bảo trì",
+            "last_check": "2026-01-10",
+            "pressure": 0.23
+        },
+        {
+            "id": "HYD-HN-025",
+            "name": "Trụ nước 71 Hồ Mễ Trì #25",
+            "latitude": 21.001588492536623,
+            "longitude": 105.79389995721253,
+            "type": "Trụ nổi",
+            "status": "Hỏng",
+            "last_check": "2026-01-10",
+            "pressure": 0.23
         }
     ]
 }

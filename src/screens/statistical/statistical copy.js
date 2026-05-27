@@ -20,86 +20,36 @@ export default function VehicleStatistics() {
     const [filterType, setFilterType] = useState('All');
     const [searchKeyword, setSearchKeyword] = useState('');
 
-    // --- STATE QUẢN LÝ ĐÓNG/MỞ MODAL THÊM MỚI ---
+    // State lưu danh sách ID các xe được chọn qua Checkbox để lọc vật tư
+    const [selectedVehicleIds, setSelectedVehicleIds] = useState([]);
+
     const [isOpenVehicleModal, setIsOpenVehicleModal] = useState(false);
     const [isOpenDeviceModal, setIsOpenDeviceModal] = useState(false);
 
-    // --- STATE QUẢN LÝ ĐÓNG/MỞ MODAL SỬA (EDIT) ---
     const [isEditVehicleModal, setIsEditVehicleModal] = useState(false);
     const [isEditDeviceModal, setIsEditDeviceModal] = useState(false);
 
-    // --- STATE FORM DỮ LIỆU ---
     const [newVehicle, setNewVehicle] = useState({ ma_xe: '', loai_xe: 'CC', trang_thai: 'ready', chu_thich: '' });
     const [newDevice, setNewDevice] = useState({
         id_xe: '',
-        ten_thiet_bi: '', // Để trống ban đầu
+        ten_thiet_bi: '',
         so_luong: 1,
         trang_thai: 'Tốt',
         chu_thich: ''
     });
 
-
     const [editingVehicle, setEditingVehicle] = useState(null);
     const [editingDevice, setEditingDevice] = useState(null);
 
-    // const fetchVehicleData = async () => {
-    //     const currentProvinceId = idProvince || 1;
-    //     setLoading(true);
-    //     try {
-    //         const { data, error } = await supabase
-    //             .from('phuong_tien')
-    //             .select('*');
-
-    //         if (error) throw error;
-
-    //         if (data) {
-    //             setVehicleList(data);
-
-    //             const allDevices = data.flatMap(vehicle =>
-    //                 (vehicle.thiet_bi || []).map(device => ({
-    //                     ...device,
-    //                     id_xe: vehicle.id
-    //                 }))
-    //             );
-    //             setDeviceList(allDevices);
-
-    //             const total = data.length;
-
-    //             const active = data.filter(v => v.trang_thai === 'Sẵn sàng' || v.trang_thai === 'Đang chạy').length;
-
-    //             const fire = data.filter(v => v.loai_xe === 'PCCC' || v.loai_xe === 'fire_truck' || v.loai_xe === 'ahd').length;
-    //             const water = data.filter(v => v.loai_xe === 'water_truck' || v.loai_xe === 'anb').length;
-
-    //             setStatistics({
-    //                 totalVehicles: total,
-    //                 activeVehicles: active,
-    //                 fireTrucks: fire,
-    //                 waterTrucks: water
-    //             });
-    //         }
-    //     } catch (err) {
-    //         console.error("Lỗi lấy dữ liệu:", err.message);
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // };
-
-    // useEffect(() => {
-    //     fetchVehicleData();
-    // }, [idProvince]);
-
-    // --- ĐỒNG BỘ LẤY DỮ LIỆU TỪ SUPABASE ---
     const fetchData = async () => {
         const currentProvinceId = idProvince || 1;
         setLoading(true);
         try {
-            // 1. Lấy danh sách xe
             const { data: vData, error: vError } = await supabase
                 .from('phuong_tien')
                 .select('*');
             if (vError) throw vError;
 
-            // 2. Lấy toàn bộ danh sách thiết bị
             const { data: dData, error: dError } = await supabase
                 .from('thiet_bi')
                 .select('*');
@@ -107,6 +57,9 @@ export default function VehicleStatistics() {
 
             if (vData) {
                 setVehicleList(vData);
+                // Mặc định tích chọn sẵn tất cả xe khi tải dữ liệu lần đầu
+                setSelectedVehicleIds(vData.map(v => v.id));
+
                 const total = vData.length;
                 const active = vData.filter(v => v.trang_thai === 'ready' || v.trang_thai === 'active').length;
                 const fire = vData.filter(v => v.loai_xe === 'CC' || v.loai_xe === 'fire_truck' || v.loai_xe === 'ahd').length;
@@ -132,7 +85,22 @@ export default function VehicleStatistics() {
         fetchData();
     }, [idProvince]);
 
-    // --- CÁC HÀM XỬ LÝ THÊM MỚI (INSERT) ---
+    const handleCheckboxChange = (vehicleId) => {
+        if (selectedVehicleIds.includes(vehicleId)) {
+            setSelectedVehicleIds(selectedVehicleIds.filter(id => id !== vehicleId));
+        } else {
+            setSelectedVehicleIds([...selectedVehicleIds, vehicleId]);
+        }
+    };
+
+    const handleSelectAllVehicles = (selectAll) => {
+        if (selectAll) {
+            setSelectedVehicleIds(vehicleList.map(v => v.id));
+        } else {
+            setSelectedVehicleIds([]);
+        }
+    };
+
     const handleAddVehicle = async (e) => {
         e.preventDefault();
         try {
@@ -162,20 +130,17 @@ export default function VehicleStatistics() {
                 return;
             }
 
-            // Bước 1: Kiểm tra xem trên xe này đã tồn tại dòng nào CÙNG TÊN và CÙNG TRẠNG THÁI chưa
             const { data: sameStatusDevice, error: checkError } = await supabase
                 .from('thiet_bi')
                 .select('*')
                 .eq('id_xe', targetIdXe)
                 .eq('ten_thiet_bi', newDevice.ten_thiet_bi)
                 .eq('trang_thai', newDevice.trang_thai)
-                .maybeSingle(); // Lấy ra dòng trùng duy nhất nếu có
+                .maybeSingle();
 
             if (checkError) throw checkError;
 
-            // Bước 2: Thực hiện thêm mới hoặc cộng dồn (Không can thiệp trạng thái khác)
             if (sameStatusDevice) {
-                // Trường hợp 2.1: Đã có sẵn dòng cùng trạng thái -> Chỉ việc CỘNG DỒN số lượng
                 const { error: upSameError } = await supabase
                     .from('thiet_bi')
                     .update({ so_luong: sameStatusDevice.so_luong + targetSoLuong })
@@ -185,7 +150,6 @@ export default function VehicleStatistics() {
                 alert('Cộng dồn số lượng vào thiết bị đã có sẵn thành công!');
             }
             else {
-                // Trường hợp 2.2: Chưa có dòng nào cùng trạng thái này -> Tạo mới (INSERT) một dòng độc lập
                 const { error: insError } = await supabase
                     .from('thiet_bi')
                     .insert([{
@@ -200,10 +164,8 @@ export default function VehicleStatistics() {
                 alert('Thêm thiết bị mới theo trạng thái thành công!');
             }
 
-            // Bước 3: Reset Form và làm mới giao diện
             setIsOpenDeviceModal(false);
             setNewDevice({ id_xe: '', ten_thiet_bi: '', so_luong: 1, trang_thai: 'Tốt', chu_thich: '' });
-
             if (typeof fetchData === 'function') fetchData();
 
         } catch (err) {
@@ -211,7 +173,6 @@ export default function VehicleStatistics() {
         }
     };
 
-    // --- CÁC HÀM XỬ LÝ CẬP NHẬT/SỬA (UPDATE) ---
     const handleUpdateVehicle = async (e) => {
         e.preventDefault();
         try {
@@ -236,7 +197,7 @@ export default function VehicleStatistics() {
         e.preventDefault();
         try {
             const targetIdXe = parseInt(editingDevice.id_xe);
-            const updateSoLuong = parseInt(editingDevice.so_luong); // Số lượng mới nhập trên Form sửa (Ví dụ: 1)
+            const updateSoLuong = parseInt(editingDevice.so_luong);
 
             if (updateSoLuong < 0) {
                 alert("Số lượng thiết bị không được là số âm!");
@@ -367,11 +328,16 @@ export default function VehicleStatistics() {
             alert('Lỗi khi cập nhật thiết bị: ' + err.message);
         }
     };
+
     const filteredVehicles = vehicleList.filter(item => {
-        const matchesType = filterType === 'All' || item.loai_xe === filterType;
+        const matchesType = (filterType === 'All' || item.loai_xe === filterType);
         const matchesSearch = item.ma_xe?.toLowerCase().includes(searchKeyword.toLowerCase());
         return matchesType && matchesSearch;
     });
+
+    // BỘ LỌC THIẾT BỊ THEO CÁC XE ĐƯỢC CHỌN QUA CHECKBOX
+    const filteredDevices = deviceList.filter(device => selectedVehicleIds.includes(device.id_xe));
+
     const getVehicleTypeName = (value) => {
         const typeMapping = {
             'CC': 'Xe chữa cháy',
@@ -426,16 +392,35 @@ export default function VehicleStatistics() {
             alert('Lỗi khi xóa phương tiện: ' + err.message);
         }
     };
-
+    const handleLogout = async () => {
+        const { error } = await supabase.auth.signOut();
+        if (error) {
+            console.error('Lỗi khi đăng xuất:', error.message);
+        } else {
+            navigate('/');
+        }
+    };
     return (
         <div className="stats-layout">
-            <header className="stats-header">
-                <div className="brand-group">
-                    <div className="brand-dot-red"></div>
-                    <h2 className="brand-title">MapAid - Quản Lý Phương Tiện & Thiết Bị</h2>
+            <header className="top-nav">
+                <div className="nav-content">
+                    <div className="logo-box">
+                        <h2 className="brand-name">MapAid</h2>
+                    </div>
+
+                    <div className="nav-right-group" style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+                        <button onClick={() => { navigate('/admin') }} className="logout-btn">
+                            <span className="material-icons" style={{ fontSize: 14, padding: '2px 3px' }}>Trang chủ</span>
+                        </button>
+                        <button onClick={() => { navigate('/admin/statistical') }} className="logout-btn">
+                            <span className="material-icons" style={{ fontSize: 14, padding: '2px 3px' }}>Thống kê phương tiện</span>
+                        </button>
+                        <button onClick={handleLogout} className="logout-btn">
+                            <span className="material-icons" style={{ fontSize: 14, padding: '2px 3px' }}>Đăng xuất</span>
+                        </button>
+                    </div>
                 </div>
-                <button onClick={() => navigate('/admin')} className="uikit-btn-primary btn-medium">Quay lại Bản đồ</button>
-            </header>
+            </header >
 
             <main className="stats-container">
                 <section className="uikit-card filter-toolbar">
@@ -446,6 +431,7 @@ export default function VehicleStatistics() {
                     <div className="form-element-group">
                         <label className="uikit-label">Loại xe</label>
                         <select className="uikit-select" value={filterType} onChange={(e) => setFilterType(e.target.value)}>
+                            <option value="All">Tất cả xe</option>
                             <option value="CC">Xe chữa cháy</option>
                             <option value="TH">Xe thang</option>
                             <option value="TN">Xe téc</option>
@@ -457,13 +443,15 @@ export default function VehicleStatistics() {
                         <button className="btn-save" onClick={() => setIsOpenDeviceModal(true)}>+ Thêm Thiết Bị</button>
                     </div>
                 </section>
+
                 <div className="tables-split-grid">
+                    {/* BẢNG 1: DANH SÁCH PHƯƠNG TIỆN */}
                     <section className="uikit-card table-section">
                         <h3 className="table-title-text">📌 Danh Sách Phương Tiện (Xe)</h3>
                         <div className="table-responsive">
                             <table className="uikit-table table-bordered">
                                 <thead>
-                                    <tr >
+                                    <tr>
                                         <th style={{ textAlign: 'center', fontWeight: 'bold' }}>STT</th>
                                         <th style={{ textAlign: 'center', fontWeight: 'bold' }}>Mã xe (Biển số)</th>
                                         <th style={{ textAlign: 'center', fontWeight: 'bold' }}>Loại xe</th>
@@ -475,7 +463,7 @@ export default function VehicleStatistics() {
                                 <tbody>
                                     {filteredVehicles.map((vehicle, index) => (
                                         <tr key={vehicle.id}>
-                                            <td style={{ width: 50 }} >{index + 1}</td>
+                                            <td style={{ width: 50, textAlign: 'center' }}>{index + 1}</td>
                                             <td className="font-weight-bold" style={{ width: 250 }}>{vehicle.ma_xe}</td>
                                             <td style={{ width: 150 }}>{getVehicleTypeName(vehicle.loai_xe)}</td>
                                             <td style={{ width: 150 }}>{vehicle.trang_thai === 'ready' ? 'Sẵn sàng' : 'Bảo dưỡng'}</td>
@@ -485,10 +473,7 @@ export default function VehicleStatistics() {
                                                     <button className="edit-x" onClick={() => { setEditingVehicle(vehicle); setIsEditVehicleModal(true); }}>
                                                         <BsPencilFill size={17} />
                                                     </button>
-                                                    <button
-                                                        className="close-x"
-                                                        onClick={() => handleDeleteVehicle(vehicle.id)}
-                                                    >
+                                                    <button className="close-x" onClick={() => handleDeleteVehicle(vehicle.id)}>
                                                         <BsFillTrashFill size={17} color="red" />
                                                     </button>
                                                 </div>
@@ -500,7 +485,38 @@ export default function VehicleStatistics() {
                         </div>
                     </section>
                     <section className="uikit-card table-section">
-                        <h3 className="table-title-text">🧰 Danh Sách Thiết Bị / Vật Tư</h3>
+                        <div style={{ marginBottom: '20px', padding: '15px', border: '1px dashed #ccc', borderRadius: '6px', backgroundColor: '#fafafa' }}>
+                            <h4 style={{ margin: '0 0 10px 0', fontSize: '15px', color: '#333', fontWeight: 'bold', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                🔍 Xe thực hiện nhiệm vụ chiến đấu
+                                <div style={{ fontSize: '13px' }}>
+                                    <button type="button" className="uikit-btn-link" style={{ marginRight: '10px', background: 'none', border: 'none', color: '#007bff', cursor: 'pointer' }} onClick={() => handleSelectAllVehicles(true)}>Chọn tất cả</button>
+                                    <button type="button" className="uikit-btn-link" style={{ background: 'none', border: 'none', color: '#dc3545', cursor: 'pointer' }} onClick={() => handleSelectAllVehicles(false)}>Bỏ chọn hết</button>
+                                </div>
+                            </h4>
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '15px' }}>
+                                {vehicleList.map((v) => {
+                                    if (v.trang_thai !== 'ready') {
+                                        return null;
+                                    }
+                                    return (
+                                        <label key={v.id} style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '14px', padding: '4px 8px', backgroundColor: '#fff', border: '1px solid #ddd', borderRadius: '4px' }}>
+                                            <input
+                                                type="checkbox"
+                                                checked={selectedVehicleIds.includes(v.id)}
+                                                onChange={() => handleCheckboxChange(v.id)}
+                                                style={{ cursor: 'pointer' }}
+                                            />
+                                            <span style={{ fontWeight: '500' }}>{v.ma_xe}</span>
+                                            <span style={{ fontSize: '12px', color: '#777' }}>({getVehicleTypeName(v.loai_xe)})</span>
+                                        </label>
+                                    )
+                                })}
+                                {vehicleList.length === 0 && <span style={{ color: '#999', fontSize: '13px' }}>Chưa có dữ liệu xe để lựa chọn.</span>}
+                            </div>
+                        </div>
+
+                        {/* --- BẢNG HIỂN THỊ DANH SÁCH THIẾT BỊ --- */}
+                        <h3 className="table-title-text">🧰 Danh Sách Thiết Bị / Vật Tư Theo Xe</h3>
                         <div className="table-responsive">
                             <table className="uikit-table table-bordered">
                                 <thead>
@@ -515,7 +531,8 @@ export default function VehicleStatistics() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {deviceList.map((device, index) => {
+                                    {filteredDevices.map((device, index) => {
+                                        console.log("Thiết bị đang hiển thị sau khi lọc:", device);
                                         const parentVehicle = vehicleList.find(v => v.id === device.id_xe);
                                         return (
                                             <tr key={device.id}>
@@ -530,10 +547,7 @@ export default function VehicleStatistics() {
                                                         <button className="edit-x" onClick={() => { setEditingDevice(device); setIsEditDeviceModal(true); }}>
                                                             <BsPencilFill size={17} />
                                                         </button>
-                                                        <button
-                                                            className="close-x"
-                                                            onClick={() => handleDeleteDevice(device.id)}
-                                                        >
+                                                        <button className="close-x" onClick={() => handleDeleteDevice(device.id)}>
                                                             <BsFillTrashFill size={17} color="red" />
                                                         </button>
                                                     </div>
@@ -541,12 +555,21 @@ export default function VehicleStatistics() {
                                             </tr>
                                         );
                                     })}
+                                    {filteredDevices.length === 0 && (
+                                        <tr>
+                                            <td colSpan="7" style={{ textAlign: 'center', color: '#999', padding: '20px' }}>
+                                                Không có vật tư nào hiển thị. Hãy tích chọn xe ở hộp lọc phía trên!
+                                            </td>
+                                        </tr>
+                                    )}
                                 </tbody>
                             </table>
                         </div>
                     </section>
                 </div>
             </main>
+
+            {/* Các modal sửa dữ liệu giữ nguyên logic gốc */}
             {isEditVehicleModal && editingVehicle && (
                 <div className="modal-overlay">
                     <div className="modal-content">
@@ -587,6 +610,7 @@ export default function VehicleStatistics() {
                     </div>
                 </div>
             )}
+
             {isEditDeviceModal && editingDevice && (
                 <div className="modal-overlay">
                     <div className="modal-content">
@@ -605,12 +629,7 @@ export default function VehicleStatistics() {
                             </div>
                             <div className="form-group">
                                 <label>Tên thiết bị:</label>
-                                <select
-                                    required
-                                    className="uikit-select"
-                                    value={editingDevice.ten_thiet_bi}
-                                    onChange={(e) => setEditingDevice({ ...editingDevice, ten_thiet_bi: e.target.value })}
-                                >
+                                <select required className="uikit-select" value={editingDevice.ten_thiet_bi} onChange={(e) => setEditingDevice({ ...editingDevice, ten_thiet_bi: e.target.value })}>
                                     <option value="Lăng A">Lăng A</option>
                                     <option value="Lăng B">Lăng B</option>
                                     <option value="Vòi 77">Vòi 77</option>
